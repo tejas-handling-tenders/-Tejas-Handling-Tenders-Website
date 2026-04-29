@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tejas Handling Tenders | Government Tender Consultancy for MSMEs | Pan India</title>
+    <meta name="description" content="Trusted MSME Government Tender Consultancy. 200+ tenders handled across India. GeM, CPPP, IREPS experts. Complete tender management & business setup services.">
+    <meta name="keywords" content="government tenders, MSME registration, GeM registration, tender consultancy, PSU tenders, CPPP, IREPS, business setup">
+    <meta name="author" content="Tejas Handling Tenders">
+    <meta property="og:title" content="Tejas Handling Tenders | Government Tender Consultancy">
+    <meta property="og:description" content="Helping MSMEs win government tenders across India. 200+ successful tenders handled.">
+    <meta property="og:type" content="website">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -27,6 +33,37 @@
             padding: 0 20px;
         }
 
+        /* Page Loader */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0B1F3A 0%, #1E3A8A 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.2);
+            border-top: 4px solid #C9A857;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 2rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Header */
         header {
             position: fixed;
@@ -42,7 +79,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            padding: 1.2rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
         .logo {
@@ -55,14 +95,31 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 2.5rem;
         }
 
         .nav-links a {
             color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: #C9A857;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-links a:hover {
@@ -70,114 +127,218 @@
         }
 
         .cta-header {
-            background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
-            color: white;
-            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, #C9A857, #D4AF37);
+            color: #0B1F3A;
+            padding: 0.9rem 2rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(201, 168, 87, 0.3);
         }
 
         .cta-header:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(201, 168, 87, 0.4);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 300px;
+            height: 100vh;
+            background: rgba(11, 31, 58, 0.98);
+            backdrop-filter: blur(20px);
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1001;
+            padding: 5rem 2rem 2rem;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+        }
+
+        .mobile-menu li {
+            margin-bottom: 1.5rem;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            display: block;
+            padding: 0.8rem 0;
+        }
+
+        .mobile-menu a:hover {
+            color: #C9A857;
+        }
+
+        .mobile-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+
+        .mobile-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Hero Section */
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(11, 31, 58, 0.85), rgba(11, 31, 58, 0.85)), 
+            background: linear-gradient(rgba(11, 31, 58, 0.88), rgba(11, 31, 58, 0.88)), 
                         url('https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
             display: flex;
             align-items: center;
             text-align: center;
             color: white;
+            position: relative;
         }
 
         .hero-content h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-size: clamp(2.8rem, 5.5vw, 5rem);
             font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            margin-bottom: 1.8rem;
+            line-height: 1.15;
         }
 
         .hero-content p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
             opacity: 0.95;
-            max-width: 800px;
+            max-width: 850px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .trust-badge {
-            background: rgba(201, 168, 87, 0.2);
+            background: rgba(201, 168, 87, 0.15);
             color: #C9A857;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
+            font-size: 1.15rem;
+            margin-bottom: 3.5rem;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(201, 168, 87, 0.3);
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1.5rem;
+            gap: 1.8rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
-            color: white;
-            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, #C9A857, #D4AF37);
+            color: #0B1F3A;
+            padding: 1.4rem 3.5rem;
             border: none;
             border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.15rem;
+            font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 15px 40px rgba(201, 168, 87, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 25px 50px rgba(201, 168, 87, 0.45);
         }
 
         .btn-secondary {
             background: transparent;
             color: white;
-            padding: 1.2rem 3rem;
-            border: 2px solid #C9A857;
+            padding: 1.4rem 3.5rem;
+            border: 2px solid rgba(255,255,255,0.8);
             border-radius: 50px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 600;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
-            background: #C9A857;
-            transform: translateY(-3px);
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-4px);
+            border-color: #C9A857;
+            color: #C9A857;
         }
 
         /* Sections */
         section {
-            padding: 120px 0;
+            padding: 140px 0;
         }
 
         .section-title {
-            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-size: clamp(2.8rem, 4.5vw, 4rem);
             font-weight: 800;
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
             background: linear-gradient(135deg, #0B1F3A, #1E3A8A);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #C9A857, #D4AF37);
+            border-radius: 2px;
         }
 
         /* About Section */
@@ -188,58 +349,79 @@
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: center;
         }
 
         .about-text h3 {
-            font-size: 2rem;
+            font-size: 2.3rem;
             color: #0B1F3A;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             font-weight: 700;
+            line-height: 1.3;
         }
 
         .about-text p {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.15rem;
+            margin-bottom: 2rem;
             color: #4B5563;
         }
 
         .about-image {
-            height: 400px;
-            background: linear-gradient(rgba(11, 31, 58, 0.8), rgba(11, 31, 58, 0.8)), 
+            height: 450px;
+            background: linear-gradient(rgba(11, 31, 58, 0.85), rgba(11, 31, 58, 0.85)), 
                         url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
-            border-radius: 20px;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
         }
 
-        /* Government Exposure */
-        .exposure-grid {
+        /* Grids */
+        .exposure-grid, .services-grid, .pricing-grid, .features-grid, .process-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            gap: 2.5rem;
+            margin-top: 5rem;
+        }
+
+        .exposure-grid {
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        }
+
+        .services-grid {
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        }
+
+        .pricing-grid {
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+        }
+
+        .features-grid {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .process-grid {
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         }
 
         .exposure-card {
             background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            border: 1px solid rgba(201, 168, 87, 0.1);
-            transition: all 0.4s ease;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
+            border: 1px solid rgba(201, 168, 87, 0.12);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             height: 100%;
         }
 
         .exposure-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+            transform: translateY(-12px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.18);
             border-color: #C9A857;
         }
 
         .exposure-card h3 {
             color: #0B1F3A;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
             font-weight: 700;
         }
 
@@ -248,38 +430,34 @@
         }
 
         .exposure-list li {
-            padding: 0.5rem 0;
+            padding: 0.8rem 0;
             color: #4B5563;
             font-weight: 500;
+            font-size: 1.05rem;
         }
 
         .disclaimer {
             background: #F8FAFC;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-top: 3rem;
-            text-align: center;
-            font-size: 0.95rem;
-            color: #6B7280;
-            border-left: 4px solid #C9A857;
-        }
-
-        /* Services */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            padding: 2.5rem;
+            border-radius: 20px;
             margin-top: 4rem;
+            text-align: center;
+            font-size: 1rem;
+            color: #6B7280;
+            border-left: 5px solid #C9A857;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
         }
 
         .service-card {
             background: white;
-            padding: 3rem 2rem;
-            border-radius: 20px;
+            padding: 3.5rem 2.5rem;
+            border-radius: 25px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-            transition: all 0.4s ease;
-            border-top: 4px solid transparent;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
+            transition: all 0.5s ease;
+            border-top: 5px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
         .service-card:nth-child(1) { border-top-color: #1E3A8A; }
@@ -287,58 +465,68 @@
         .service-card:nth-child(3) { border-top-color: #0B1F3A; }
         .service-card:nth-child(4) { border-top-color: #1E3A8A; }
 
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, rgba(201, 168, 87, 0.5), transparent);
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .service-card:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+            transform: translateY(-18px);
+            box-shadow: 0 50px 120px rgba(0,0,0,0.18);
         }
 
         .service-icon {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
-            border-radius: 20px;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 2rem;
+            margin: 0 auto 2rem;
+            font-size: 2.2rem;
             color: white;
+            box-shadow: 0 15px 40px rgba(30, 58, 138, 0.3);
         }
 
         .service-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             color: #0B1F3A;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             font-weight: 700;
-        }
-
-        /* Pricing */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
         }
 
         .pricing-card {
             background: white;
-            padding: 3rem 2.5rem;
-            border-radius: 25px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            padding: 4rem 3rem;
+            border-radius: 30px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
             text-align: center;
             position: relative;
-            transition: all 0.4s ease;
+            transition: all 0.5s ease;
             border: 2px solid transparent;
         }
 
         .pricing-card.popular {
             border-color: #C9A857;
-            transform: scale(1.05);
+            transform: scale(1.06);
+            box-shadow: 0 40px 100px rgba(201, 168, 87, 0.15);
         }
 
         .pricing-card:hover {
-            transform: translateY(-20px);
-            box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+            transform: translateY(-25px) scale(1.02);
+            box-shadow: 0 50px 120px rgba(0,0,0,0.18);
         }
 
         .pricing-card.popular .price {
@@ -346,73 +534,59 @@
         }
 
         .price {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             color: #0B1F3A;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
 
         .pricing-card .popular-badge {
             position: absolute;
-            top: -15px;
+            top: -18px;
             left: 50%;
             transform: translateX(-50%);
-            background: #C9A857;
+            background: linear-gradient(135deg, #C9A857, #D4AF37);
             color: white;
-            padding: 0.5rem 2rem;
+            padding: 0.7rem 2.5rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* Why Choose Us */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            font-size: 0.95rem;
+            box-shadow: 0 10px 30px rgba(201, 168, 87, 0.4);
         }
 
         .feature-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1.5rem;
+            gap: 1.5rem;
+            padding: 2rem;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+            transition: all 0.4s ease;
         }
 
         .feature-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.12);
         }
 
         .feature-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
-            border-radius: 15px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.7rem;
             flex-shrink: 0;
-        }
-
-        /* Process */
-        .process-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
+            box-shadow: 0 10px 30px rgba(30, 58, 138, 0.3);
         }
 
         .process-step {
             text-align: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1.5rem;
             position: relative;
         }
 
@@ -420,9 +594,9 @@
             content: '';
             position: absolute;
             top: 50%;
-            left: -1rem;
-            width: 2rem;
-            height: 2px;
+            left: -1.5rem;
+            width: 2.5rem;
+            height: 3px;
             background: #E5E7EB;
             z-index: -1;
         }
@@ -434,17 +608,128 @@
         }
 
         .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
-            color: white;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #C9A857, #D4AF37);
+            color: #0B1F3A;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 800;
+            font-size: 1.8rem;
+            margin: 0 auto 2rem;
+            box-shadow: 0 15px 40px rgba(201, 168, 87, 0.4);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 5rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.08);
+            border-left: 5px solid #C9A857;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 1.5rem;
+            left: 2.5rem;
+            font-size: 6rem;
+            color: #C9A857;
+            font-weight: 800;
+            line-height: 1;
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-size: 1.15rem;
+            color: #4B5563;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1E3A8A, #0B1F3A);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-weight: 700;
-            font-size: 1.5rem;
-            margin: 0 auto 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: white;
+            margin-bottom: 1.5rem;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+        }
+
+        .faq-question {
+            padding: 2rem 2.5rem;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: #0B1F3A;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #F8FAFC;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            background: #F8FAFC;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-answer.active {
+            max-height: 200px;
+            padding: 0 2.5rem 2rem;
+        }
+
+        .faq-answer p {
+            color: #4B5563;
+            line-height: 1.8;
         }
 
         /* Contact */
@@ -456,65 +741,85 @@
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 5rem;
             align-items: start;
         }
 
         .contact-info h3 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+            font-size: 2.3rem;
+            margin-bottom: 2.5rem;
             color: #C9A857;
+            font-weight: 700;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            transition: all 0.3s ease;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            transition: all 0.4s ease;
         }
 
         .contact-item:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(10px);
+            background: rgba(255,255,255,0.15);
+            transform: translateX(12px);
         }
 
         .contact-item i {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #C9A857;
-            width: 40px;
+            width: 45px;
+            text-align: center;
         }
 
         .contact-form {
-            background: rgba(255,255,255,0.1);
-            padding: 2.5rem;
-            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            padding: 3rem;
+            border-radius: 25px;
             backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group input,
         .form-group textarea {
             width: 100%;
-            padding: 1rem 1.5rem;
+            padding: 1.3rem 1.8rem;
             border: none;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.9);
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            background: rgba(255,255,255,0.95);
+            font-size: 1.05rem;
+            transition: all 0.4s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             background: white;
-            box-shadow: 0 0 0 3px rgba(201, 168, 87, 0.2);
+            box-shadow: 0 0 0 4px rgba(201, 168, 87, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .form-message {
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+            display: none;
+        }
+
+        .form-message.success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22C55E;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            display: block;
         }
 
         /* Footer */
@@ -522,90 +827,164 @@
             background: #0B1F3A;
             color: white;
             text-align: center;
-            padding: 3rem 0 1rem;
+            padding: 4rem 0 2rem;
         }
 
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
+            gap: 2.5rem;
+            margin-bottom: 3rem;
         }
 
         .social-links a {
             color: white;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
+            font-size: 1.8rem;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            border-radius: 50%;
+            backdrop-filter: blur(10px);
         }
 
         .social-links a:hover {
             color: #C9A857;
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.1);
+            background: rgba(255,255,255,0.1);
         }
 
         /* WhatsApp Button */
         .whatsapp-float {
             position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background: #25D366;
+            width: 70px;
+            height: 70px;
+            bottom: 50px;
+            right: 50px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
             color: white;
             border-radius: 50px;
             text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px #999;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
             z-index: 100;
             animation: whatsapp-bounce 2s infinite;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
         }
 
         @keyframes whatsapp-bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .about-content,
-            .contact-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-
-            .section-title {
-                font-size: 2.5rem;
-            }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) scale(1); }
+            40% { transform: translateY(-12px) scale(1.05); }
+            60% { transform: translateY(-6px) scale(1.02); }
         }
 
         /* Animations */
         .fade-in {
             opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
+            transform: translateY(60px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .about-content,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .about-text h3 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            nav {
+                padding: 1rem 20px;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1.25rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1.2rem;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+                max-width: 350px;
+                padding: 1.3rem 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            section {
+                padding: 100px 0;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .exposure-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 30px;
+                right: 30px;
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.3rem;
+            }
+
+            .service-card, .exposure-card, .pricing-card {
+                padding: 2rem 1.5rem;
+            }
         }
 
         /* Smooth Scroll */
@@ -615,19 +994,46 @@
     </style>
 </head>
 <body>
+    <!-- Page Loader -->
+    <div id="loader">
+        <div class="loader-spinner"></div>
+        <div style="color: white; font-size: 1.2rem; font-weight: 500;">Loading...</div>
+    </div>
+
     <!-- Header -->
     <header>
-        <nav class="container">
+        <nav>
             <a href="#" class="logo">Tejas Handling Tenders</a>
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#exposure">Exposure</a></li>
                 <li><a href="#services">Services</a></li>
                 <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <a href="#contact" class="cta-header">Free Consultation</a>
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
         </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-overlay" id="mobileOverlay"></div>
+        <div class="mobile-menu" id="mobileMenu">
+            <button class="mobile-menu-btn" style="position: absolute; top: 1.5rem; right: 1.5rem; color: white;">
+                <i class="fas fa-times"></i>
+            </button>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#exposure">Exposure</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <a href="#contact" class="cta-header" style="display: inline-block; margin-top: 2rem;">Free Consultation</a>
+        </div>
     </header>
 
     <!-- Hero Section -->
@@ -656,9 +1062,9 @@
                     <p>With experience handling 200+ tenders across India, we specialize in GeM, CPPP, IREPS, and all major PSU portals. From identification to winning submission, we provide end-to-end support.</p>
                     <p>Our mission: Helping MSMEs access government business without confusion or middlemen. Pan India coverage with proven results.</p>
                     <ul style="list-style: none; padding-left: 0;">
-                        <li><i class="fas fa-check text-[#1E3A8A] mr-3"></i>200+ Tenders Handled</li>
-                        <li><i class="fas fa-check text-[#1E3A8A] mr-3"></i>GeM, CPPP, IREPS Experts</li>
-                        <li><i class="fas fa-check text-[#1E3A8A] mr-3"></i>End-to-End Support</li>
+                        <li style="color: #1E3A8A; font-weight: 600; margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i>200+ Tenders Handled</li>
+                        <li style="color: #1E3A8A; font-weight: 600; margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i>GeM, CPPP, IREPS Experts</li>
+                        <li style="color: #1E3A8A; font-weight: 600;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i>End-to-End Support</li>
                     </ul>
                 </div>
                 <div class="about-image fade-in"></div>
@@ -672,7 +1078,7 @@
             <h2 class="section-title fade-in">Government & PSU Exposure</h2>
             <div class="exposure-grid">
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-shield-alt text-[#1E3A8A]"></i> Defence & Security</h3>
+                    <h3><i class="fas fa-shield-alt" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Defence & Security</h3>
                     <ul class="exposure-list">
                         <li>Indian Army</li>
                         <li>Indian Navy</li>
@@ -682,7 +1088,7 @@
                     </ul>
                 </div>
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-bolt text-[#1E3A8A]"></i> Power & Energy</h3>
+                    <h3><i class="fas fa-bolt" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Power & Energy</h3>
                     <ul class="exposure-list">
                         <li>NTPC Limited</li>
                         <li>Power Grid Corporation of India</li>
@@ -691,7 +1097,7 @@
                     </ul>
                 </div>
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-industry text-[#1E3A8A]"></i> Oil & Gas</h3>
+                    <h3><i class="fas fa-industry" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Oil & Gas</h3>
                     <ul class="exposure-list">
                         <li>Indian Oil Corporation Limited</li>
                         <li>Bharat Petroleum Corporation Limited</li>
@@ -700,7 +1106,7 @@
                     </ul>
                 </div>
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-train text-[#1E3A8A]"></i> Railways & Infrastructure</h3>
+                    <h3><i class="fas fa-train" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Railways & Infrastructure</h3>
                     <ul class="exposure-list">
                         <li>Indian Railways</li>
                         <li>IRCON International</li>
@@ -709,7 +1115,7 @@
                     </ul>
                 </div>
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-flask text-[#1E3A8A]"></i> Heavy Industry</h3>
+                    <h3><i class="fas fa-flask" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Heavy Industry</h3>
                     <ul class="exposure-list">
                         <li>Bharat Heavy Electricals Limited</li>
                         <li>Hindustan Aeronautics Limited</li>
@@ -718,7 +1124,7 @@
                     </ul>
                 </div>
                 <div class="exposure-card fade-in">
-                    <h3><i class="fas fa-seedling text-[#1E3A8A]"></i> Chemicals & Fertilizers</h3>
+                    <h3><i class="fas fa-seedling" style="color: #1E3A8A; margin-right: 0.8rem;"></i> Chemicals & Fertilizers</h3>
                     <ul class="exposure-list">
                         <li>Rashtriya Chemicals and Fertilizers Limited</li>
                         <li>National Fertilizers Limited</li>
@@ -740,41 +1146,41 @@
                     <div class="service-icon"><i class="fas fa-building"></i></div>
                     <h3>Business Setup</h3>
                     <ul style="text-align: left; list-style: none;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> MSME Registration</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> GST Registration</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Trademark</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> ISO Certification</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> MSME Registration</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> GST Registration</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Trademark</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> ISO Certification</li>
                     </ul>
                 </div>
                 <div class="service-card fade-in">
                     <div class="service-icon"><i class="fas fa-shopping-cart"></i></div>
                     <h3>Government Selling Setup</h3>
                     <ul style="text-align: left; list-style: none;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> GeM Registration</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> OEM Panel Setup</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Product Listing</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Catalog Optimization</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> GeM Registration</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> OEM Panel Setup</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Product Listing</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Catalog Optimization</li>
                     </ul>
                 </div>
                 <div class="service-card fade-in">
                     <div class="service-icon"><i class="fas fa-file-contract"></i></div>
                     <h3>Tender Support</h3>
                     <ul style="text-align: left; list-style: none;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Tender Identification</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Documentation</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Technical & Commercial Bid</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Compliance Management</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Submission</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Tender Identification</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Documentation</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Technical & Commercial Bid</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Compliance Management</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Submission</li>
                     </ul>
                 </div>
                 <div class="service-card fade-in">
                     <div class="service-icon"><i class="fas fa-chart-line"></i></div>
                     <h3>Strategy & Pricing</h3>
                     <ul style="text-align: left; list-style: none;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Competitive Pricing Strategy</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Cost Optimization</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Bid Analysis</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Winning Strategy</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Competitive Pricing Strategy</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Cost Optimization</li>
+                        <li style="margin-bottom: 0.8rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Bid Analysis</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Winning Strategy</li>
                     </ul>
                 </div>
             </div>
@@ -789,9 +1195,9 @@
                 <div class="pricing-card fade-in">
                     <div class="price">₹15,000</div>
                     <h3>Starter</h3>
-                    <ul style="list-style: none; text-align: left; margin-bottom: 2rem;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> MSME + GST + GeM Setup</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Documentation Support</li>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 2.5rem;">
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> MSME + GST + GeM Setup</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Documentation Support</li>
                     </ul>
                     <a href="#contact" class="btn-primary">Start Your Business</a>
                 </div>
@@ -799,23 +1205,23 @@
                     <div class="popular-badge">MOST POPULAR</div>
                     <div class="price">₹35,000</div>
                     <h3>Growth Package</h3>
-                    <ul style="list-style: none; text-align: left; margin-bottom: 2rem;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Everything in Starter</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> ISO Certification</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> 10 Product Listings</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> OEM Setup</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Catalog Optimization</li>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 2.5rem;">
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Everything in Starter</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> ISO Certification</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> 10 Product Listings</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> OEM Setup</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Catalog Optimization</li>
                     </ul>
                     <a href="#contact" class="btn-primary">Start Growing</a>
                 </div>
                 <div class="pricing-card fade-in">
-                    <div class="price">₹7,000<span style="font-size: 1rem; font-weight: 400;">/tender</span></div>
+                    <div class="price">₹7,000<span style="font-size: 1.2rem; font-weight: 400;">/tender</span></div>
                     <h3>Tender Package</h3>
-                    <ul style="list-style: none; text-align: left; margin-bottom: 2rem;">
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Tender Identification</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Documentation</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Submission Support</li>
-                        <li><i class="fas fa-check text-[#1E3A8A]"></i> Compliance Handling</li>
+                    <ul style="list-style: none; text-align: left; margin-bottom: 2.5rem;">
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Tender Identification</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Documentation</li>
+                        <li style="margin-bottom: 1rem;"><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Submission Support</li>
+                        <li><i class="fas fa-check" style="color: #1E3A8A; margin-right: 1rem;"></i> Compliance Handling</li>
                     </ul>
                     <a href="#contact" class="btn-primary">Get Free Consultation</a>
                 </div>
@@ -889,22 +1295,112 @@
         </div>
     </section>
 
+    <!-- Testimonials -->
+    <section id="testimonials" class="about">
+        <div class="container">
+            <h2 class="section-title fade-in">What Our Clients Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">
+                        "Tejas team helped us win our first GeM tender within 45 days. Their documentation was perfect and we got the order!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RS</div>
+                        <div>
+                            <div style="font-weight: 700; color: #0B1F3A;">Rajesh Sharma</div>
+                            <div style="color: #6B7280; font-size: 0.95rem;">MD, Tech Solutions Pvt Ltd</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">
+                        "From MSME registration to winning PSU tender, end-to-end support was excellent. Highly recommended for MSMEs."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AP</div>
+                        <div>
+                            <div style="font-weight: 700; color: #0B1F3A;">Anita Patel</div>
+                            <div style="color: #6B7280; font-size: 0.95rem;">CEO, Green Energy Solutions</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-text">
+                        "Saved us months of confusion with tender portals. Professional team with real results. 5 stars!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">VK</div>
+                        <div>
+                            <div style="font-weight: 700; color: #0B1F3A;">Vikram Kumar</div>
+                            <div style="color: #6B7280; font-size: 0.95rem;">Founder, Industrial Supplies</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" style="background: #F8FAFC;">
+        <div class="container">
+            <h2 class="section-title fade-in">Frequently Asked Questions</h2>
+            <div style="max-width: 900px; margin: 0 auto;">
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>What is the success rate for tenders?</span>
+                        <i class="fas fa-chevron-down" style="transition: transform 0.3s ease;"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We have 75%+ success rate across 200+ tenders handled. Success depends on product quality, pricing strategy, and compliance which we optimize for maximum wins.</p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Do I need MSME registration for government tenders?</span>
+                        <i class="fas fa-chevron-down" style="transition: transform 0.3s ease;"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, MSME/Udyam registration is mandatory for most government tenders and provides benefits like price preference and exemptions.</p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>How long does GeM registration take?</span>
+                        <i class="fas fa-chevron-down" style="transition: transform 0.3s ease;"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>GeM seller registration takes 3-5 working days including document verification and profile setup.</p>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>Do you guarantee tender wins?</span>
+                        <i class="fas fa-chevron-down" style="transition: transform 0.3s ease;"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>No guarantee as tenders are competitive, but we maximize your chances through perfect compliance, competitive pricing, and proven strategies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Trust Section -->
     <section class="about">
         <div class="container">
             <h2 class="section-title fade-in">What We Stand For</h2>
-            <div style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.2rem;">
-                <div class="trust-badge" style="font-size: 1.3rem; margin-bottom: 2rem; display: inline-block;">
-                    <i class="fas fa-lock mr-3"></i>No hidden charges
+            <div style="text-align: center; max-width: 900px; margin: 0 auto; font-size: 1.25rem;">
+                <div class="trust-badge" style="font-size: 1.4rem; margin-bottom: 2.5rem; display: inline-block;">
+                    <i class="fas fa-lock" style="margin-right: 1rem;"></i>No hidden charges
                 </div>
-                <div class="trust-badge" style="font-size: 1.3rem; margin-bottom: 2rem; display: inline-block;">
-                    <i class="fas fa-eye mr-3"></i>Transparent process
+                <div class="trust-badge" style="font-size: 1.4rem; margin-bottom: 2.5rem; display: inline-block;">
+                    <i class="fas fa-eye" style="margin-right: 1rem;"></i>Transparent process
                 </div>
-                <div class="trust-badge" style="font-size: 1.3rem; margin-bottom: 2rem; display: inline-block;">
-                    <i class="fas fa-handshake mr-3"></i>End-to-end support
+                <div class="trust-badge" style="font-size: 1.4rem; margin-bottom: 2.5rem; display: inline-block;">
+                    <i class="fas fa-handshake" style="margin-right: 1rem;"></i>End-to-end support
                 </div>
-                <div class="trust-badge" style="font-size: 1.3rem; display: inline-block;">
-                    <i class="fas fa-star mr-3"></i>Pay only for quality service
+                <div class="trust-badge" style="font-size: 1.4rem; display: inline-block;">
+                    <i class="fas fa-star" style="margin-right: 1rem;"></i>Pay only for quality service
                 </div>
             </div>
         </div>
@@ -917,18 +1413,18 @@
             <div class="contact-grid">
                 <div class="contact-info fade-in">
                     <h3>Ready to Win Government Tenders?</h3>
-                    <p style="margin-bottom: 2rem; opacity: 0.9;">Contact us for free consultation. Pan India service.</p>
+                    <p style="margin-bottom: 2.5rem; opacity: 0.92; font-size: 1.15rem;">Contact us for free consultation. Pan India service.</p>
                     <div class="contact-item">
                         <i class="fab fa-whatsapp"></i>
                         <div>
-                            <div style="font-weight: 600;">+91 95201 86950</div>
-                            <a href="https://wa.me/919520186950?text=Hi%20Tejas%20Handling%20Tenders%2C%20I%20need%20consultation" style="color: #C9A857; text-decoration: none;">Chat on WhatsApp</a>
+                            <div style="font-weight: 700; font-size: 1.15rem;">+91 95201 86950</div>
+                            <a href="https://wa.me/919520186950?text=Hi%20Tejas%20Handling%20Tenders%2C%20I%20need%20consultation" style="color: #C9A857; text-decoration: none; font-weight: 600;">Chat on WhatsApp</a>
                         </div>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
                         <div>
-                            <div style="font-weight: 600;">tejasdixit.procurement@gmail.com</div>
+                            <div style="font-weight: 700; font-size: 1.15rem;">tejasdixit.procurement@gmail.com</div>
                             <a href="mailto:tejasdixit.procurement@gmail.com" style="color: #C9A857; text-decoration: none;">Send Email</a>
                         </div>
                     </div>
@@ -946,17 +1442,18 @@
                     </div>
                 </div>
                 <div class="contact-form fade-in">
-                    <form>
+                    <form id="contactForm">
+                        <div class="form-message" id="formMessage"></div>
                         <div class="form-group">
-                            <input type="text" placeholder="Your Name" required>
+                            <input type="text" id="name" placeholder="Your Name" required>
                         </div>
                         <div class="form-group">
-                            <input type="tel" placeholder="Your Phone" required>
+                            <input type="tel" id="phone" placeholder="Your Phone" required>
                         </div>
                         <div class="form-group">
-                            <textarea rows="5" placeholder="Tell us about your requirement..." required></textarea>
+                            <textarea id="message" rows="5" placeholder="Tell us about your requirement..." required></textarea>
                         </div>
-                        <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                        <button type="submit" class="btn-primary" style="width: 100%; padding: 1.4rem;">Send Message → WhatsApp</button>
                     </form>
                 </div>
             </div>
@@ -971,7 +1468,7 @@
                 <a href="https://www.instagram.com/pandit_tejas_dixit" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="https://wa.me/919520186950" target="_blank"><i class="fab fa-whatsapp"></i></a>
             </div>
-            <p>© 2024 Tejas Handling Tenders. All rights reserved. | Pan India Government Tender Consultancy</p>
+            <p style="opacity: 0.8;">© 2024 Tejas Handling Tenders. All rights reserved. | Pan India Government Tender Consultancy</p>
         </div>
     </footer>
 
@@ -981,6 +1478,36 @@
     </a>
 
     <script>
+        // Page Loader
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 500);
+        });
+
+        // Mobile Menu
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const closeBtn = mobileMenu.querySelector('.mobile-menu-btn');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            mobileOverlay.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+        });
+
+        mobileOverlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+        });
+
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -991,14 +1518,17 @@
                         behavior: 'smooth',
                         block: 'start'
                     });
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                    mobileOverlay.classList.remove('active');
                 }
             });
         });
 
         // Fade in animation on scroll
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
         };
 
         const observer = new IntersectionObserver(function(entries) {
@@ -1023,11 +1553,39 @@
             }
         });
 
-        // Form submission
-        document.querySelector('form').addEventListener('submit', function(e) {
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const icon = question.querySelector('i');
+                
+                answer.classList.toggle('active');
+                icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+            });
+        });
+
+        // Contact Form with WhatsApp redirect
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you! We will contact you shortly on WhatsApp.');
-            this.reset();
+            
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            
+            const whatsappMessage = `New Lead from Website!%0A%0AName: ${name}%0APhone: ${phone}%0AMessage: ${message}`;
+            const whatsappUrl = `https://wa.me/919520186950?text=${whatsappMessage}`;
+            
+            // Show success message
+            const formMessage = document.getElementById('formMessage');
+            formMessage.textContent = 'Thank you! Redirecting to WhatsApp...';
+            formMessage.className = 'form-message success';
+            
+            // Reset form and redirect after short delay
+            setTimeout(() => {
+                this.reset();
+                formMessage.style.display = 'none';
+                window.open(whatsappUrl, '_blank');
+            }, 1500);
         });
     </script>
 </body>
